@@ -895,6 +895,8 @@ async def get_users(event):
         return await hell.edit("Restricted to invite users from there.")
     kraken = await get_chatinfo(event)
     chat = await event.get_chat()
+    full = await client(functions.channels.GetFullChannelRequest(your_channel))
+
     if event.is_private:
         return await hell.edit("`Sorry, Cant add users here`")
     s = 0
@@ -902,7 +904,7 @@ async def get_users(event):
     error = "None"
 
     await hell.edit("**INVITING USERS !!**")
-    async for user in event.client.iter_participants(kraken.full_chat.id):
+    async for user in event.client.iter_participants(full.full_chat.id):
         try:
             if error.startswith("Too"):
                 return await hell.edit(
