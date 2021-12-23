@@ -808,6 +808,7 @@ from telethon.tl.functions.channels import GetFullChannelRequest
 from telethon.tl.functions.messages import GetFullChatRequest
 
 
+
 async def get_chatinfo(event):
     chat = event.text[10:]
     chat_info = None
