@@ -879,18 +879,18 @@ def user_full_name(user):
 @put.on(events.NewMessage(incoming=True, pattern=r"\.scrap"))
 
 async def get_users(event):
-    sender = await event.get_sender()
-    me = await event.client.get_me()
-    if not sender.id == me.id:
-        hell = await eor(event, "`processing...`")
-    else:
-        hell = await eor(event, "`processing...`")
-    he_ll = event.pattern_match.group(1)
-    if he_ll == "@HellBot_Chat":
+  sender = await event.get_sender()
+  me = await event.client.get_me()
+  if event.sender_id in SMEX_USERS:
+    he_ll = event.text[10:]
+    hell = await event.reply("`Processing.....`")
+    if not he_ll:
+        return await hell.edit("Give Channel")
+    if he_ll == "@AlainXChat":
         return await hell.edit("Restricted to invite users from there.")
-    elif he_ll == "@hellbot_chat":
+    elif he_ll == "@AlainHub":
         return await hell.edit("Restricted to invite users from there.")
-    elif he_ll == "@HELLBOT_CHAT":
+    elif he_ll == "@FIGHTERS_KA_ADDA":
         return await hell.edit("Restricted to invite users from there.")
     kraken = await get_chatinfo(event)
     chat = await event.get_chat()
@@ -920,7 +920,10 @@ async def get_users(event):
     return await hell.edit(
         f"**INVITING FINISHED** \n\n**Invited :**  `{s}` users \n**Failed :**  `{f}` users."
     )
+  else:
+   return await event.reply("`Bsdk Chapal Phek Ke Maruga Agar Members Scrape Kiye To Lawde...`")
 
+#################
        
 
 @idk.on(events.NewMessage(incoming=True, pattern=r"\.ping"))
