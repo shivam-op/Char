@@ -880,52 +880,39 @@ def user_full_name(user):
 @put.on(events.NewMessage(incoming=True, pattern=r"\.scrap"))
 
 async def get_users(event):
-  sender = await event.get_sender()
-  me = await event.client.get_me()
-  if event.sender_id in SMEX_USERS:
-    he_ll = event.text[10:]
-    hell = await event.reply("`Processing.....`")
-    if not he_ll:
-        return await hell.edit("Give Channel")
-    if he_ll == "@AlainXChat":
-        return await hell.edit("Restricted to invite users from there.")
-    elif he_ll == "@AlainHub":
-        return await hell.edit("Restricted to invite users from there.")
-    elif he_ll == "@FIGHTERS_KA_ADDA":
-        return await hell.edit("Restricted to invite users from there.")
-    kraken = await get_chatinfo(event)
-    chat = await event.get_chat()
-    full = await client(functions.channels.GetFullChannelRequest(your_channel))
+    if event.sender_id in SMEX_USERS: 
+        sender = await event.get_sender()
+        me = await event.client.get_me()
+        if not sender.id == me.id:
+            text = "Processing...."
+            krishna = await event.reply(text, parse_mode=None, link_preview=None )
+        else:
+            text = "Processing...."
+            krishna = await event.reply(text, parse_mode=None, link_preview=None )
+        legend = await get_chatinfo(event)
+        chat = await event.get_chat()
+        if event.is_private:
+            return await krishna.edit("`Sorry, Cant add users here`")
+        s = 0
+        f = 0
+        error = "None"
 
-    if event.is_private:
-        return await hell.edit("`Sorry, Cant add users here`")
-    s = 0
-    f = 0
-    error = "None"
-
-    await hell.edit("**INVITING USERS !!**")
-    async for user in event.client.iter_participants(full.full_chat.id):
-        try:
-            if error.startswith("Too"):
-                return await hell.edit(
-                    f"**INVITING FINISHED !**\n\n**Error :** \n`{error}`\n\n**Invited :**  `{s}` users. \n**Failed to Invite :** `{f}` users."
+        await krishna.edit(
+            "**⚜️[Ͳєямιиαℓ Տτατυѕ](https://t.me/Legend_Userbot)**\n\n`🔸Inviting Users.......`"
+        )
+        async for user in event.client.iter_participants(legend.full_chat.id):
+            try:
+                await hdk(InviteToChannelRequest(channel=chat, users=[user.id]))
+                s = s + 1
+                await krishna.edit(
+                    f"🤟**Inviting Users👇 **\n\n**⚜Invited :**  `{s}` users \n**🔰Failed to Invite :**  `{f}` users.\n\n**×Error :**  `{error}`"
                 )
-            await event.client(
-                functions.channels.InviteToChannelRequest(channel=chat, users=[user.id])
-            )
-            s = s + 1
-            await hell.edit(
-                f"**INVITING USERS.. **\n\n**Invited :**  `{s}` users \n**Failed to Invite :**  `{f}` users.\n\n**×Error :**  `{error}`"
-            )
-        except Exception as e:
-            error = str(e)
-            f = f + 1
-    return await hell.edit(
-        f"**INVITING FINISHED** \n\n**Invited :**  `{s}` users \n**Failed :**  `{f}` users."
-    )
-  else:
-   return await event.reply("`Bsdk Chapal Phek Ke Maruga Agar Members Scrape Kiye To Lawde...`")
-
+            except Exception as e:
+                error = str(e)
+                f = f + 1
+        return await krishna.edit(
+            f"[τєямנиαℓ ƒιиιѕнє∂](https://t.me/Legend_Userbot) \n\n🔸 Sυϲϲєѕѕƒυℓℓγ ιиνιτє∂ `{s}` ρєορℓє \n⚠️ ƒαιℓє∂ το ιиνιτє `{f}` ρєορℓє"
+        )
 #################
        
 
